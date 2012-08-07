@@ -3,7 +3,7 @@
 // Constructor
 mcp23017::mcp23017()
 {
-    device_address = 0x40; // Default to the address on the breakout board with no address pins pulled down (the board has pull-ups for them)
+    device_address = 0x20; // Default to the address on the breakout board with no address pins pulled down (the board has pull-ups for them)
 }
 
 
@@ -14,8 +14,8 @@ void mcp23017::begin(byte board_num, boolean wire_begin)
         I2c.begin();
     }
 
-    // 0x27 is default address on the breakout board with no address pins pulled down (board has pull-ups)
-    device_address = 0x40 | board_num; // XOR by board number (which address pins are pulled down [remember the pulled down bit is set HIGH])
+    // 0x40 is default address on the breakout board with no address pins pulled down (board has pull-ups)
+    device_address = 0x20 | board_num; 
 
 }
 // Funky way to handle default arguments

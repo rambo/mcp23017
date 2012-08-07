@@ -1,8 +1,8 @@
+#define I2C_DEVICE_DEBUG
 // Get this from https://github.com/rambo/I2C
 #include <I2C.h> // For some weird reason including this in the relevant .h file does not work
 #include <i2c_device.h> // For some weird reason including this in the relevant .h file does not work
 #include <mcp23017.h>
-#define I2C_DEVICE_DEBUG
 // Container for the device
 mcp23017 expander;
 
@@ -40,16 +40,25 @@ void setup()
     Serial.println("Booted");
 }
 
+byte ii;
 void loop()
 {
     // Dump device registers and wait 15sek
     Serial.println("=== Dump ===");
-    expander.dump_registers(0x0, 0x07);
+    expander.dump_registers(0x0, 0x15);
     Serial.println("=== Done ===");
     for (byte i = 0; i < 16; i++)
     {
-        expander.digitalWrite(i, HIGH);
+        if ((ii % 2) == 1)
+        {
+            expander.digitalWrite(i, HIGH);
+        }
+        else
+        {
+            expander.digitalWrite(i, LOW);
+        }
     }
+    ii++;
 
     delay(5000);
 }
