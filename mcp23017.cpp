@@ -15,7 +15,7 @@ void mcp23017::begin(byte board_num, boolean wire_begin)
     }
 
     // 0x27 is default address on the breakout board with no address pins pulled down (board has pull-ups)
-    device_address = 0x40 ^ board_num; // XOR by board number (which address pins are pulled down [remember the pulled down bit is set HIGH])
+    device_address = 0x40 | board_num; // XOR by board number (which address pins are pulled down [remember the pulled down bit is set HIGH])
 
 }
 // Funky way to handle default arguments
