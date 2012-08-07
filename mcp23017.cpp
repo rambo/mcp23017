@@ -38,7 +38,7 @@ void mcp23017::begin()
  */
 boolean mcp23017::set_port_mode(byte port, byte mode)
 {
-    return this->write(0x6 + port, mode);
+    return this->write(0x0 + port, mode);
 }
 
 /**
@@ -46,7 +46,7 @@ boolean mcp23017::set_port_mode(byte port, byte mode)
  */
 boolean mcp23017::set_port_invert(byte port, byte mode)
 {
-    return this->write(0x4 + port, mode);
+    return this->write(0x2 + port, mode);
 }
 
 /**
@@ -54,7 +54,7 @@ boolean mcp23017::set_port_invert(byte port, byte mode)
  */
 boolean mcp23017::read_data()
 {
-    return this->read_many(0x0, 2, this->data);
+    return this->read_many(0x12, 2, this->data);
 }
 
 /**
@@ -64,7 +64,7 @@ boolean mcp23017::read_data()
  */
 boolean mcp23017::write_data()
 {
-    return this->write_many(0x2, 2, this->data);
+    return this->write_many(0x12, 2, this->data);
 }
 
 /**
@@ -84,12 +84,12 @@ boolean mcp23017::sync()
 boolean mcp23017::port_read_modify_write(byte port, byte mask, byte value)
 {
     byte tmp;
-    if (!this->read_many(0x0 + port, 1, &tmp))
+    if (!this->read_many(0x12 + port, 1, &tmp))
     {
         return false;
     }
     tmp = (tmp & mask) | value;
-    if (!this->write_many(0x2 + port, 1, &tmp))
+    if (!this->write_many(0x12 + port, 1, &tmp))
     {
         return false;
     }
@@ -123,7 +123,7 @@ boolean mcp23017::pinMode(byte pin, byte mode)
     {
         value = (byte)_BV(pin % 8);
     }
-    return this->read_modify_write(0x6 + port, (byte)~_BV(pin % 8), value);
+    return this->read_modify_write(0x0 + port, (byte)~_BV(pin % 8), value);
 }
 
 /**
@@ -141,7 +141,7 @@ boolean mcp23017::pinInvert(byte pin, boolean invert)
     {
         value = (byte)_BV(pin % 8);
     }
-    return this->read_modify_write(0x4 + port, (byte)~_BV(pin % 8), value);
+    return this->read_modify_write(0x2 + port, (byte)~_BV(pin % 8), value);
 }
 
 
