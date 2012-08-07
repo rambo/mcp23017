@@ -1,13 +1,13 @@
-#include "pca9535.h"
+#include "mcp23017.h"
 
 // Constructor
-pca9535::pca9535()
+mcp23017::mcp23017()
 {
     device_address = 0x27; // Default to the address on the breakout board with no address pins pulled down (the board has pull-ups for them)
 }
 
 
-void pca9535::begin(byte board_num, boolean wire_begin)
+void mcp23017::begin(byte board_num, boolean wire_begin)
 {
     if (wire_begin)
     {
@@ -19,14 +19,14 @@ void pca9535::begin(byte board_num, boolean wire_begin)
 
 }
 // Funky way to handle default arguments
-void pca9535::begin(byte board_addr)
+void mcp23017::begin(byte board_addr)
 {
-    pca9535::begin(board_addr, true);
+    mcp23017::begin(board_addr, true);
 }
 
-void pca9535::begin()
+void mcp23017::begin()
 {
-    pca9535::begin(0x0, true);
+    mcp23017::begin(0x0, true);
 }
 
 
@@ -34,9 +34,9 @@ void pca9535::begin()
 /**
  * Sets the mode bits for given port (0/1), a low bit means output, default is all inputs (0xff)
  *
- * See also pca9535::pinMode()
+ * See also mcp23017::pinMode()
  */
-boolean pca9535::set_port_mode(byte port, byte mode)
+boolean mcp23017::set_port_mode(byte port, byte mode)
 {
     return this->write(0x6 + port, mode);
 }
@@ -44,7 +44,7 @@ boolean pca9535::set_port_mode(byte port, byte mode)
 /**
  * Sets the invert bits for given port (0/1), a high bit means inverted input, default is all normal (0x0)
  */
-boolean pca9535::set_port_invert(byte port, byte mode)
+boolean mcp23017::set_port_invert(byte port, byte mode)
 {
     return this->write(0x4 + port, mode);
 }
@@ -52,7 +52,7 @@ boolean pca9535::set_port_invert(byte port, byte mode)
 /**
  * Reads the input bits
  */
-boolean pca9535::read_data()
+boolean mcp23017::read_data()
 {
     return this->read_many(0x0, 2, this->data);
 }
@@ -60,9 +60,9 @@ boolean pca9535::read_data()
 /**
  * Writes the output bits
  *
- * See also pca9535::digitalWrite()
+ * See also mcp23017::digitalWrite()
  */
-boolean pca9535::write_data()
+boolean mcp23017::write_data()
 {
     return this->write_many(0x2, 2, this->data);
 }
@@ -70,7 +70,7 @@ boolean pca9535::write_data()
 /**
  * calls write_output and read_input, returns true if both succeed false if one fails
  */
-boolean pca9535::sync()
+boolean mcp23017::sync()
 {
     boolean ret;
     ret = this->write_data();
@@ -81,7 +81,7 @@ boolean pca9535::sync()
 /**
  * Do a Read,Modify,Write on the given port (we cannot use the i2c_device method since the write reg is different from the read one)
  */
-boolean pca9535::port_read_modify_write(byte port, byte mask, byte value)
+boolean mcp23017::port_read_modify_write(byte port, byte mask, byte value)
 {
     byte tmp;
     if (!this->read_many(0x0 + port, 1, &tmp))
@@ -111,7 +111,7 @@ OUTPUT=B1
 /**
  * Arduino style pinmode setting. 0-7 in portA, 8-15 in portB
  */
-boolean pca9535::pinMode(byte pin, byte mode)
+boolean mcp23017::pinMode(byte pin, byte mode)
 {
     byte port = 0;
     if (pin > 7)
@@ -129,7 +129,7 @@ boolean pca9535::pinMode(byte pin, byte mode)
 /**
  * Set input inversion on single pin, Arduino style
  */
-boolean pca9535::pinInvert(byte pin, boolean invert)
+boolean mcp23017::pinInvert(byte pin, boolean invert)
 {
     byte port = 0;
     if (pin > 7)
@@ -148,7 +148,7 @@ boolean pca9535::pinInvert(byte pin, boolean invert)
 /**
  * Arduino style pin value setting. 0-7 in portA, 8-15 in portB
  */
-boolean pca9535::digitalWrite(byte pin, byte state)
+boolean mcp23017::digitalWrite(byte pin, byte state)
 {
     byte port = 0;
     if (pin > 7)
@@ -166,7 +166,7 @@ boolean pca9535::digitalWrite(byte pin, byte state)
 /**
  * Arduino style pin value setting. 0-7 in portA, 8-15 in portB
  */
-boolean pca9535::digitalRead(byte pin)
+boolean mcp23017::digitalRead(byte pin)
 {
     this->read_data();
     byte port = 0;

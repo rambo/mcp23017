@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include "pca9535bounce.h"
+#include "mcp23017bounce.h"
 
 
-void pca9535bounce::begin(pca9535 *expander, uint8_t pin, unsigned long interval_millis )
+void mcp23017bounce::begin(mcp23017 *expander, uint8_t pin, unsigned long interval_millis )
 {
 	interval(interval_millis);
 	previous_millis = millis();
@@ -12,27 +12,27 @@ void pca9535bounce::begin(pca9535 *expander, uint8_t pin, unsigned long interval
 }
 
 
-void pca9535bounce::write(int new_state)
+void mcp23017bounce::write(int new_state)
        {
        	this->state = new_state;
        	digitalWrite(pin,state);
        }
 
 
-void pca9535bounce::interval(unsigned long interval_millis)
+void mcp23017bounce::interval(unsigned long interval_millis)
 {
   this->interval_millis = interval_millis;
   this->rebounce_millis = 0;
 }
 
-void pca9535bounce::rebounce(unsigned long interval)
+void mcp23017bounce::rebounce(unsigned long interval)
 {
 	 this->rebounce_millis = interval;
 }
 
 
 
-int pca9535bounce::update()
+int mcp23017bounce::update()
 {
 	if ( debounce() ) {
         rebounce(0);
@@ -51,20 +51,20 @@ int pca9535bounce::update()
 }
 
 
-unsigned long pca9535bounce::duration()
+unsigned long mcp23017bounce::duration()
 {
   return millis() - previous_millis;
 }
 
 
-int pca9535bounce::read()
+int mcp23017bounce::read()
 {
 	return (int)state;
 }
 
 
 // Protected: debounces the pin
-int pca9535bounce::debounce() {
+int mcp23017bounce::debounce() {
 #ifndef PCA9535_BOUNCE_OPTIMIZEDREADS
 	uint8_t newState = this->device->digitalRead(pin);
 #else
@@ -93,7 +93,7 @@ int pca9535bounce::debounce() {
 }
 
 // The risingEdge method is true for one scan after the de-bounced input goes from off-to-on.
-bool  pca9535bounce::risingEdge() { return stateChanged && state; }
+bool  mcp23017bounce::risingEdge() { return stateChanged && state; }
 // The fallingEdge  method it true for one scan after the de-bounced input goes from on-to-off. 
-bool  pca9535bounce::fallingEdge() { return stateChanged && !state; }
+bool  mcp23017bounce::fallingEdge() { return stateChanged && !state; }
 

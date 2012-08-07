@@ -1,13 +1,13 @@
 // safety againts double-include
-#ifndef pca9535_h
-#define pca9535_h
+#ifndef mcp23017_h
+#define mcp23017_h
 #include <Arduino.h> 
 #include <i2c_device.h>
 
-class pca9535 : public i2c_device
+class mcp23017 : public i2c_device
 {
     public:
-        pca9535(); // We need this so we can set default address
+        mcp23017(); // We need this so we can set default address
 
         // Initialize the object and chip        
         void begin(byte board_num, boolean wire_begin);
@@ -30,7 +30,7 @@ class pca9535 : public i2c_device
 };
 
 #ifdef PCA9535_ENABLE_BOUNCE
-#include "pca9535bounce.h"
+#include "mcp23017bounce.h"
 #endif
 
 

@@ -23,18 +23,18 @@
 
 
 // safety againts double-include
-#ifndef pca9535bounce_h
-#define pca9535bounce_h
+#ifndef mcp23017bounce_h
+#define mcp23017bounce_h
 #include <Arduino.h>
-#include "pca9535.h"
+#include "mcp23017.h"
 
-class pca9535bounce
+class mcp23017bounce
 {
     public:
         /**
-         * Initializes the bouncer, needs pointer to the pca9535 instance and otherwise works like the standard library constructor
+         * Initializes the bouncer, needs pointer to the mcp23017 instance and otherwise works like the standard library constructor
          */
-        void begin(pca9535 *expander, uint8_t pin, unsigned long interval_millis );
+        void begin(mcp23017 *expander, uint8_t pin, unsigned long interval_millis );
 
         void interval(unsigned long interval_millis); 
           // Updates the pin
@@ -62,7 +62,7 @@ class pca9535bounce
         uint8_t state;
         uint8_t pin;
         uint8_t stateChanged;
-        pca9535* device;
+        mcp23017* device;
 
 };
 
