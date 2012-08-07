@@ -1,5 +1,5 @@
 /**
- * Example sketch demoing the the use of the interrupt on the PCA9535 chip
+ * Example sketch demoing the the use of the interrupt on the MCP23017 chip
  *
  * The INT pin is open collector and in case you're not using the board in this repo (which contains pull-up for the pin)
  * you will need to enable the Arduino internal pull-up (or provide external one), this sketch enables the Arduino pull-up as well
@@ -11,13 +11,13 @@
 // Get this from https://github.com/rambo/I2C
 #include <I2C.h> // For some weird reason including this in the relevant .h file does not work
 #include <i2c_device.h> // For some weird reason including this in the relevant .h file does not work
-#define PCA9535_ENABLE_BOUNCE
-#define PCA9535_BOUNCE_OPTIMIZEDREADS // Do not use the naive methods that will always read the device, handy when you have multiple pins to debounce, OTOH you must remember to call the read_data() method yourself
-#include <pca9535.h>
+#define MCP23017_ENABLE_BOUNCE
+#define MCP23017_BOUNCE_OPTIMIZEDREADS // Do not use the naive methods that will always read the device, handy when you have multiple pins to debounce, OTOH you must remember to call the read_data() method yourself
+#include <mcp23017.h>
 
 // Container for the device (the default constructor will take care of the device address when using the board found in this repo)
-pca9535 expander;
-pca9535bounce bouncer;
+mcp23017 expander;
+mcp23017bounce bouncer;
 
 void setup()
 {
@@ -57,7 +57,7 @@ void loop()
         Serial.println("Still alive");
         last_millis = millis();
     }
-#ifdef PCA9535_BOUNCE_OPTIMIZEDREADS
+#ifdef MCP23017_BOUNCE_OPTIMIZEDREADS
     // Read only once
     expander.read_data();
 #endif

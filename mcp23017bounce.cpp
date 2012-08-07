@@ -65,7 +65,7 @@ int mcp23017bounce::read()
 
 // Protected: debounces the pin
 int mcp23017bounce::debounce() {
-#ifndef PCA9535_BOUNCE_OPTIMIZEDREADS
+#ifndef MCP23017_BOUNCE_OPTIMIZEDREADS
 	uint8_t newState = this->device->digitalRead(pin);
 #else
     uint8_t newState

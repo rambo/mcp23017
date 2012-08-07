@@ -1,10 +1,10 @@
 // Get this from https://github.com/rambo/I2C
 #include <I2C.h> // For some weird reason including this in the relevant .h file does not work
 #include <i2c_device.h> // For some weird reason including this in the relevant .h file does not work
-#include <pca9535.h>
+#include <mcp23017.h>
 #define I2C_DEVICE_DEBUG
 // Container for the device
-pca9535 expander;
+mcp23017 expander;
 
 void setup()
 {

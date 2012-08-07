@@ -29,7 +29,7 @@ class mcp23017 : public i2c_device
         byte data[2]; // registers 0 and 1
 };
 
-#ifdef PCA9535_ENABLE_BOUNCE
+#ifdef MCP23017_ENABLE_BOUNCE
 #include "mcp23017bounce.h"
 #endif
 
